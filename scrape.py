@@ -38,8 +38,8 @@ def download_file(url, filepath):
 def save_image(path):
     dir = os.path.dirname(path)
     file = os.path.basename(path)
-    mkdir_p('wonderfl.net/%s' % dir)
-    filepath = 'wonderfl.net%s/%s' % (dir, file)
+    mkdir_p('docs/wonderfl.net/%s' % dir)
+    filepath = 'docs/wonderfl.net%s/%s' % (dir, file)
     download_file('http://wonderfl.net' + path, filepath)
 
 
@@ -104,8 +104,8 @@ def get_user(user):
 
     rewrite_abs_urls(soup, '../../../')
 
-    mkdir_p('wonderfl.net/user/%s/codes' % user)
-    with open('wonderfl.net/user/%s/codes/index.html' % user, 'wb') as f:
+    mkdir_p('docs/wonderfl.net/user/%s/codes' % user)
+    with open('docs/wonderfl.net/user/%s/codes/index.html' % user, 'wb') as f:
         raw = soup.prettify('utf-8')
         raw = raw.replace('http://swf.wonderfl.net/', '../../')
         raw = re.sub(r'\?\d{10}', '', raw)
@@ -121,7 +121,7 @@ def get_code_page(url):
 
         return
     id = m.group(1)
-    mkdir_p('wonderfl.net/c/%s' % id)
+    mkdir_p('docs/wonderfl.net/c/%s' % id)
 
     response = requests.get(url, headers={'accept-language': 'ja'})
 
@@ -130,16 +130,16 @@ def get_code_page(url):
     swf_path = swf_url[24:]
     swf_dir = os.path.dirname(swf_path)
     swf_file = os.path.basename(swf_path)
-    mkdir_p('wonderfl.net/%s' % swf_dir)
-    download_file(swf_url, 'wonderfl.net/%s/%s' % (swf_dir, swf_file))
+    mkdir_p('docs/wonderfl.net/%s' % swf_dir)
+    download_file(swf_url, 'docs/wonderfl.net/%s/%s' % (swf_dir, swf_file))
 
     dl_link = soup.find(href=re.compile(r'download$'))
     dl_link['href'] = re.sub(r'download$', '%s.zip' % id, dl_link['href'])
-    download_file('http://wonderfl.net/c/%s/download' % id, 'wonderfl.net/c/%s/%s.zip' % (id, id))
+    download_file('http://wonderfl.net/c/%s/download' % id, 'docs/wonderfl.net/c/%s/%s.zip' % (id, id))
 
     rewrite_abs_urls(soup, '../../')
 
-    with open('wonderfl.net/c/%s/index.html' % id, 'wb') as f:
+    with open('docs/wonderfl.net/c/%s/index.html' % id, 'wb') as f:
         raw = soup.prettify('utf-8')
         raw = raw.replace('http://swf.wonderfl.net/', '../../')
         raw = re.sub(r'\?\d{10}', '', raw)
