@@ -148,7 +148,7 @@ def get_code_page(url):
 
 
 if __name__ == '__main__':
-    code_pages = get_user('kkeisuke')
+    code_pages = get_user('Saqoosha')
     for p in code_pages:
         print(p)
         get_code_page(p)
